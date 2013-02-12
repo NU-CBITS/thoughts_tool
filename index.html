@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Thoughts Tool</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap_wo_icons.min.css" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="font_awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/global.css" />
+
+<style media="screen" type="text/css">
+
+  .input-medium-large {
+    width: 80%;
+  }
+  .form-horizontal .control-label {
+    width: 60px;
+  }
+  .form-horizontal .controls {
+    margin-left: 80px;
+  }
+  .form-horizontal .emotion-tags .control-label{
+    width: 100px;
+  }
+  .form-horizontal .emotion-tags .controls {
+    margin-left: 120px;
+  }
+  .slider-container {
+    width:95%;
+    display:inline-block;
+    padding:10px;"
+  }
+  .slider.ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all {
+    width:85%;
+  }
+  .intensity-value {
+    padding-right:15px;
+  }
+  .container-fluid {
+    padding-top:20px;
+  }
+  @media (max-width: 480px) {
+    .form-horizontal .controls {
+      margin-left: 0;
+    }
+    .slider.ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all {
+      width:80%;
+    }
+    .intensity-value {
+      margin-left:10px;
+    }
+  }
+
+</style>
+<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="js/vendor/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="js/vendor/underscore-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/underscore-t.js"></script>
+<script type="text/javascript" src="js/vendor/knockout-2.2.min.js"></script>
+<script type="text/javascript" src="js/our_knockout_extensions.js"></script>
+<script type="text/javascript" src="js/vendor/backbone-0.9.9.dev.js"></script>
+<script type="text/javascript" src="js/backbone_knockout_view.js"></script>
+<script type="text/javascript" src="dynamo/Core.js"></script>
+<script type="text/javascript">
+  Dynamo.TriremeURL = "https://165.124.171.122:3347"
+</script>
+<script type="text/javascript" src="dynamo/Core.Models.js"></script>
+<script type="text/javascript">
+  Dynamo.XelementClass = Dynamo.UnitaryXelement;
+</script>
+<script type="text/javascript" src="dynamo/Core.Collections.js"></script>
+<script type="text/javascript" src="dynamo/Core.Views.js"></script>
+
+<script type="text/javascript" src="dynamo/Questions.Models.js"></script>
+<script type="text/javascript" src="dynamo/Questions.Collections.js"></script>
+<script type="text/javascript" src="dynamo/Questions.Views.js"></script>
+
+<script type="text/javascript" src="dynamo/Guides.Models.js"></script>
+<script type="text/javascript" src="dynamo/Guides.Collections.js"></script>
+<script type="text/javascript" src="dynamo/Guides.Views.js"></script>
+
+<script type="text/javascript" src="js/site-wide-stuff.js"></script>
+
+<script type='text/javascript' src='js/slider.js'></script>
+
+<script type='text/javascript' src='js/our_filter_class.js'></script>
+<script type='text/javascript' src='js/our_filter_class_instance.js'></script>
+
+<script id="event-form-template" type='text/html'>
+  <form class="form-horizontal form-condensed">
+    <div class="row-fluid">
+      <h2><span class="h2-header">Form</span></h2>
+      <div class="control-group">
+        <label class="control-label">Situation</label>
+          <div class="controls">
+          <textarea type="text" 
+                rows="4"
+                class="input-medium-large"
+                placeholder="Describe what happened"
+                data-bind="value: situation">
+          </textarea>
+          <div style="font-size: 24.5px;" class="inline text-prog-gray">
+            <i class="icon-question-sign"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start and End Times -->
+    <div class="control-group">
+      <label class="control-label">Starts</label>
+      <div class="controls">
+        <select data-bind="value: start_month" class="input-mini">
+          <option value="0">Jan</option>
+          <option value="1">Feb</option>
+          <option value="2">Mar</option>
+          <option value="3">Apr</option>
+          <option value="4">May</option>
+          <option value="5">June</option>
+          <option value="6">July</option>
+          <option value="7">Aug</option>
+          <option value="8">Sept</option>
+          <option value="9">Oct</option>
+          <option value="10">Nov</option>
+          <option value="11">Dec</option>
+        </select>
+        <input  type="text" 
+                placeholder="dd" 
+                class="input-xmini" 
+                data-bind="value: start_date">
+        <input  type="text" 
+                placeholder="yyyy" 
+                class="input-xmini" 
+                data-bind="value: start_year">
+        <select data-bind="value: start_hour" class="input-small">
+          <option value="0">12 am</option>
+          <option value="1">1 am</option>
+          <option value="2">2 am</option>
+          <option value="3">3 am</option>
+          <option value="4">4 am</option>
+          <option value="5">5 am</option>
+          <option value="6">6 am</option>
+          <option value="7">7 am</option>
+          <option value="8">8 am</option>
+          <option value="9">9 am</option>
+          <option value="10">10 am</option>
+          <option value="11">11 am</option>
+          <option value="12">12 pm</option>
+          <option value="13">1 pm</option>
+          <option value="14">2 pm</option>
+          <option value="15">3 pm</option>
+          <option value="16">4 pm</option>
+          <option value="17">5 pm</option>
+          <option value="18">6 pm</option>
+          <option value="19">7 pm</option>
+          <option value="20">8 pm</option>
+          <option value="21">9 pm</option>
+          <option value="22">10 pm</option>
+          <option value="23">11 pm</option>
+        </select>
+        <input  type="text" 
+                placeholder="min" 
+                class="input-xmini" 
+                data-bind="value: start_minute">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">Ends</label>
+      <div class="controls">
+        <select data-bind="value: end_month" class="input-mini">
+          <option value="0">Jan</option>
+          <option value="1">Feb</option>
+          <option value="2">Mar</option>
+          <option value="3">Apr</option>
+          <option value="4">May</option>
+          <option value="5">June</option>
+          <option value="6">July</option>
+          <option value="7">Aug</option>
+          <option value="8">Sept</option>
+          <option value="9">Oct</option>
+          <option value="10">Nov</option>
+          <option value="11">Dec</option>
+        </select>
+        <input  type="text" 
+                placeholder="dd" 
+                class="input-xmini" 
+                data-bind="value: end_date">
+        <input  type="text" 
+                placeholder="yyyy" 
+                class="input-xmini" 
+                data-bind="value: end_year">
+        <select data-bind="value: end_hour" class="input-small">
+          <option value="0">12 am</option>
+          <option value="1">1 am</option>
+          <option value="2">2 am</option>
+          <option value="3">3 am</option>
+          <option value="4">4 am</option>
+          <option value="5">5 am</option>
+          <option value="6">6 am</option>
+          <option value="7">7 am</option>
+          <option value="8">8 am</option>
+          <option value="9">9 am</option>
+          <option value="10">10 am</option>
+          <option value="11">11 am</option>
+          <option value="12">12 pm</option>
+          <option value="13">1 pm</option>
+          <option value="14">2 pm</option>
+          <option value="15">3 pm</option>
+          <option value="16">4 pm</option>
+          <option value="17">5 pm</option>
+          <option value="18">6 pm</option>
+          <option value="19">7 pm</option>
+          <option value="20">8 pm</option>
+          <option value="21">9 pm</option>
+          <option value="22">10 pm</option>
+          <option value="23">11 pm</option>
+        </select>
+        <input  type="text" 
+                placeholder="min" 
+                class="input-xmini" 
+                data-bind="value: end_minute">
+      </div>
+    </div>
+    
+    <!-- Tags -->
+    <div class="control-group">
+      <label class="control-label">Tags (<span data-bind="text: tags().length"></span>)</label>
+      <div class="controls">
+        <ul data-bind="foreach: { data: tags, as: 'tag' }">
+          <li>
+              <div class="input-tag">
+                <input type="text" data-bind="value: tag.value, valueUpdate: 'afterkeydown'" />
+                <button class="btn" data-bind="click: tag.remove">Remove</button>
+              </div>
+          </li>
+        </ul>
+        <button class="btn" data-bind="click: tags_addElement"><i class="icon-plus"></i> Add Tag</button>
+      </div>
+    </div>    
+
+    <!-- Thought -->
+    <div class="row-fluid">
+      <div class="control-group span12">
+          <label class="control-label">Your Thought</label>
+          <div class="controls">
+            <input type="text" 
+                  placeholder="What did you first think in this situation?"
+                  class="input-medium-large"
+                  data-bind="value: thought">
+            <div style="font-size: 24.5px;" class="inline text-prog-gray">
+              <i class="icon-question-sign"></i>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Emotion -->
+    <div class="row-fluid">
+      <div class="span5">
+        <div class="control-group">
+          <label class="control-label">Emotion</label>
+          <div class="controls">
+            <select class="input-small" data-bind="value: emotion">
+              <option value="sad">Sad</option>
+              <option value="happy">Happy</option>
+              <option value="angry">Angry</option>
+              <option value="anxious">Anxious</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="span7">
+        <div style="text-align:center;"><label>Intensity</label></div>
+        <div class="clearfix"></div>
+        <div class="slider-container">
+            <div class="slider pull-left" data-bind="slider: emotion_intensity, sliderOptions: {min: 1, max: 10, value: 1, range: 'min', step: 1}"></div>
+            <strong class="pull-right intensity-value" data-bind="text: emotion_intensity, valueUpdate: 'afterkeydown'" style="font-size:2em;"></strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alternative Thought -->
+    <div class="row-fluid">
+      <div class="control-group span12">
+          <label class="control-label">Alternative Thought</label>
+          <div class="controls">
+            <textarea
+              placeholder="What is another, more helpful, thought you could have had?"
+              class="input-medium-large"
+              data-bind="value: alternative_thought"
+              rows="3">
+            </textarea>
+            <div style="font-size: 24.5px;" class="inline text-prog-gray">
+              <i class="icon-question-sign"></i>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Outcome Emotion -->
+    <div class="row-fluid">
+      <div class="span5">
+        <div class="control-group">
+          <label class="control-label">Outcome</label>
+          <div class="controls">
+            <select class="input-small" data-bind="value: outcome">
+              <option value="sad">Sad</option>
+              <option value="happy">Happy</option>
+              <option value="angry">Angry</option>
+              <option value="anxious">Anxious</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="span7">
+        <div style="text-align:center;"><label>Intensity</label></div>
+        <div class="clearfix"></div>
+        <div class="row-fluid">
+        <div class="slider-container">
+            <div class="slider pull-left" data-bind="slider: outcome_intensity, sliderOptions: {min: 1, max: 10, value: 1, range: 'min', step: 1}"></div>
+            <strong class="pull-right intensity-value" data-bind="text: outcome_intensity, valueUpdate: 'afterkeydown'" style="font-size:2em;"></strong>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+    <div class="control-group">
+      <button class="save btn btn-primary" data-bind="click: save">Save Thought Record</button>
+      <button class="del btn btn-danger" data-bind="click: destroy">Delete</button>
+    </div>
+  </form>
+
+</script>
+
+<script id="thoughtRecordListTemplate" type="text/html">
+  <div class="patient-health-record-header list-item" data-cid="<%= item.cid %>">
+    <h4><%= item.situation %>: </h4>
+    <strong>From:</strong> <%= item.start.toString() %>
+    <div class="clearfix"></div>
+    <strong>Until:</strong> <%= item.end.toString() %>
+    <div class="clearfix"></div>
+    <strong>Thought:</strong>
+    <%= item.thought %>
+    <div class="clearfix"></div>
+    <strong>Emotion</strong>
+    <%= item.emotion %> (<%= item.emotion_intensity %>)
+    <div class="clearfix"></div>
+    <strong>Alternative Thought:</strong> <%= item.alternative_thought %>
+    <div class="clearfix"></div>
+    <strong>Outcome:</strong> <%= item.outcome %>(<%= item.outcome_intensity %>)
+  </div>
+</script> 
+
+<script type="text/javascript">
+
+ThoughtsToolEvent = Dynamo.Data.extend({
+
+  defaultDataAtts: function() {
+    var now = new Date(),
+        y = now.getFullYear(),
+        m = now.getMonth(),
+        d = now.getDate(),
+        h = now.getHours(),
+        min = now.getMinutes();
+    return {
+      // id: 1,
+      situation: ["string", ""],
+      tags: ["array", []],
+      start: ["datetime", new Date(y, m, d, h+1, 00)],
+      end: ["datetime", new Date(y, m, d, h+2, 00)],
+      thought: ["string", null],
+      emotion: ["string", null],
+      emotion_intensity: ["number", null],
+      alternative_thought: ["string", null],
+      outcome: ["string", null],  
+      outcome_intensity: ["string", null],
+    }
+  }
+
+});
+
+GoalsView = Backbone.View.extend({
+
+  initialize: function() {
+    _.bindAll(this);
+    this.currentStatusToDisplay = "unanswered";
+
+    this.unansweredBtnClass = "";
+    this.completedBtnClass = "";
+    this.ignoredBtnClass = "";
+
+    this.goals = this.options.goals;
+    this.goalData = this.options.goalData;
+  },
+
+  events: {
+    // "click button.btn-filter-goal-data": "filterGoalData",
+    "click button.unanswered": "setToUnanswered",
+    "click button.completed": "setToCompleted",
+    "click button.ignored": "setToIgnored"
+  },
+  setToUnanswered: function() {
+    this.currentStatusToDisplay = "unanswered";
+    this.render();
+  },
+
+  setToCompleted: function() {
+    this.currentStatusToDisplay = "completed";
+    this.render();
+  },  
+
+  setToIgnored: function() {
+    this.currentStatusToDisplay = "ignored";
+    this.render();
+  },    
+
+  template: function() {
+    this.setButtonStatus();
+    return _.template('<div class="well well-small well-shadow header-well"><h2 style="display:inline;">Goals</h2><div class="btn-group pull-right" data-toggle="buttons-radio"><button type="button" data-status="unanswered" class="btn-filter-goal-data btn unanswered '+this.unansweredBtnClass+'">Unanswered</button><button data-status="completed" type="button" class="btn-filter-goal-data btn completed '+this.completedBtnClass+'">Completed</button><button data-status="ignored" type="button" class="btn-filter-goal-data btn ignored '+this.ignoredBtnClass+'">Ignored</button></div><ul id="goals"></ul></div>');
+  },
+
+  // filterGoalData: function(clickEvent) {
+  //   var target = clickEvent.currentTarget
+  //   var status = $(target).data('status')
+  //   console.log("status", status)
+  //   this.currentStatusToDisplay = status
+  //   this.render()
+  // },
+
+  goalSnippet: function(goalXEL, alertKlass) {
+    xelementID = goalXEL.id
+    goalName = goalXEL.metacontent().name
+    goalDescription = goalXEL.metacontent().description
+    return ""+
+      "<li><div class=\"alert "+alertKlass+"\">"+
+        "<div class=\"pull-right\">"+
+          "<button type=\"button\" class=\"btn set-goal ignore btn-remove btn-mini\" data-dismiss=\"alert\" data-xelement-id=\""+xelementID+"\">"+"<i class=\"icon-remove\"></i>"+"</button>"+
+          "<button type=\"button\" class=\"btn set-goal btn-ok btn-mini\" data-dismiss=\"alert\" data-xelement-id=\""+xelementID+"\"><i class=\"icon-ok set-goal\" data-xelement-id=\""+xelementID+"\"></i></button>"+
+        "</div>"+
+        "<div><strong>"+goalName+"</strong> - "+goalDescription+"</div>"+
+      "</div></li>"
+  },
+
+  appendGoalData: function() {
+    var self = this
+    var data_to_display = []
+    var ul = self.$el.find('ul#goals')
+    ThoughtsToolGoals.each(function(goal_xel) {
+      var relevantData = ThoughtsToolGoalData.find(function(ud) {
+        return (ud.get("xelement_id") == goal_xel.id) 
+      });
+      switch (self.currentStatusToDisplay) {
+        case "unanswered":
+          if (!relevantData.id) {
+            ul.append( self.goalSnippet(goal_xel, "alert-error") );
+          }
+        break;
+        case "completed":
+          if (relevantData.get_field_value('status') == "completed") {
+            ul.append( self.goalSnippet(goal_xel, "alert-success") );
+          };
+          $('button.btn-ok').hide();
+        break;
+        case "ignored":
+          if (relevantData.get_field_value('status') == "ignored") {
+            ul.append( self.goalSnippet(goal_xel, "alert-info") );
+          };
+          $('button.btn-remove').hide();
+        break;
+      };
+    });
+  },
+
+  placeGoalTooltips: function() {
+    this.$el.find("i.icon-remove").tooltip({
+      title: "Ignore Goal"
+    });
+    this.$el.find("i.icon-ok").tooltip({
+      title: "Check if Completed"
+    });
+  },
+
+  render: function() {
+    this.$el.html(this.template())
+    this.appendGoalData();
+    this.setGoalHandlers();
+    this.placeGoalTooltips();
+    return this
+  },
+
+  setButtonStatus: function(){
+    var self = this;
+    self.unansweredBtnClass = "";
+    self.completedBtnClass = "";
+    self.ignoredBtnClass = "";
+
+    switch (this.currentStatusToDisplay) {
+      case "unanswered":
+        self.unansweredBtnClass = "active";
+      break;
+      case "completed":
+        self.completedBtnClass = "active";
+      break;
+      case "ignored":
+        self.ignoredBtnClass = "active";
+      break;
+    }
+  },
+
+  setGoalHandlers: function() {
+    self = this;
+    this.$el.find('.set-goal').click(function(event) {
+
+      var target = $(event.currentTarget);
+      var xelementID = target.data('xelement-id')
+      console.log("xelement", xelementID)
+      
+      var data = ThoughtsToolGoalData.find(function(goalData) {
+        return (goalData.get("xelement_id") == xelementID) 
+      });
+
+      if (target.hasClass('ignore')) {
+        data.set_field('status', "string", "ignored")
+      } else {
+        data.set_field('status', "string", "completed")
+      };
+
+      data.save();
+
+      console.log("status", data.get_field_value('status'))
+      self.render()
+    })
+
+  }
+
+
+});
+
+
+function renderVisualization() {
+  currentVisualization.render();
+};
+
+function selectedValues(selector) {
+  var r = [];
+  _.map($(':selected', selector), function(selected){ 
+    r.push( $(selected).text() ); 
+  });
+  return r;
+};
+
+function passesTimeFilters(event, timeFilters) {
+
+  if ( _.isEmpty(timeFilters) ) { return true };
+
+  //if not empty, gotta figure out if event fits filters;
+  var eventStart = event.get_field_value('start'),
+      eventEnd = event.get_field_value('end');
+
+  var earliestAcceptableStartTime = null, 
+      latestAcceptableEndTime = null;
+
+  if ( _.contains(timeFilters, "Mornings") ) {
+    earliestAcceptableStartTime = 5;
+    latestAcceptableEndTime = 12
+  }
+
+  if ( _.contains(timeFilters, "Afternoons") ) { 
+    if (earliestAcceptableStartTime == null) {
+      earliestAcceptableStartTime = 12;
+    };
+    latestAcceptableEndTime = 12 + 6;
+  };
+
+  if ( _.contains(timeFilters, "Evenings") ) { 
+    if (earliestAcceptableStartTime == null) {
+      earliestAcceptableStartTime = 12+6;
+    };
+    latestAcceptableEndTime = 23;
+  };
+
+  if (eventStart.getHours() < earliestAcceptableStartTime) { return false }
+  if ( (eventEnd.getHours() < 5) || (eventEnd.getHours() > latestAcceptableEndTime) ) { return false }
+
+  return true;
+};
+
+
+function passesTopicFilters(event, topicFilters) {
+
+  if ( _.isEmpty(topicFilters) ) { return true };
+
+  return ( !_.isEmpty( _.intersection(event.get_field_value("tags"), topicFilters) ) );
+};
+
+function passesThoughtDistortionFilters(event, distortionFilters) {
+
+  if ( _.isEmpty(distortionFilters) ) { return true };
+
+  return ( !_.isEmpty( _.intersection(event.get_field_value("tags"), distortionFilters) ) );
+
+};
+
+function passesEmotionFilters(event, emotionFilters) {
+
+  if ( _.isEmpty(emotionFilters) ) { return true };
+
+  emotionFilters = _.map(emotionFilters, function(s) { return s.toLowerCase() });
+  return _.contains(emotionFilters, event.get_field_value("emotion") );
+};
+
+function filteredEvents() {
+  var timeFilters, topicFilters, expFilters, emotionFilters;
+
+  timeFilters = selectedValues("select#time-filters");
+  topicFilters = selectedValues("select#topic-filters");
+  expFilters = selectedValues("select#distortion-filters");
+  emotionFilters = selectedValues("select#emotion-filters");
+
+  var filteredEvents = ThoughtsToolEvents.chain().filter(function(event) { 
+    return (  passesTimeFilters(event, timeFilters) &&
+              passesTopicFilters(event, topicFilters) &&
+              passesThoughtDistortionFilters(event, expFilters) &&
+              passesEmotionFilters(event, emotionFilters)
+            )
+  }).compact().value();
+
+  return filteredEvents
+}
+
+
+loadPage = function() {
+
+  // Setup Thought Goals  
+
+  ThoughtsToolGoals = new XelementCollection(XELEMENTS.filter(function(xel) {
+    return (xel.get_field_value("title") == "Thought  Goal")
+  })); 
+
+  ThoughtsToolGoalData = new DataCollection(null);
+
+  ThoughtsToolGoals.each(function(goal_xel) {
+    var data;
+
+    //Fetch any existing data on the server for this user and goal.
+    var dc = new DataCollection(null, {
+      xelement_id: goal_xel.id,
+      user_id: Dynamo.CURRENT_USER_ID,
+      group_id: Dynamo.CURRENT_GROUP_ID      
+    });
+    dc.fetch({async: false});
+
+    if (dc.length > 0) {
+      data = dc.first();
+    }
+    else {
+      //if length is 0, then no data exists, create new object.
+      data = new Dynamo.Data({
+        server_url: Dynamo.TriremeURL,
+        xelement_id: goal_xel.id,
+        user_id: Dynamo.CURRENT_USER_ID,
+        group_id: Dynamo.CURRENT_GROUP_ID       
+      });
+    };
+    
+    ThoughtsToolGoalData.add(data); 
+    //either way, it gets added to the collection of user data about calendar goals.
+  });
+
+  goalsView = new GoalsView({
+    goals:  ThoughtsToolGoals,
+    goalData: ThoughtsToolGoalData
+  });
+
+  // Setup collection of events
+  ThoughtsToolEvents = new DataCollection(null, {
+    xelement_id: "THOUGHTS-TOOL-EVENTS-GUID",
+    user_id: Dynamo.CURRENT_USER_ID,
+    group_id: Dynamo.CURRENT_GROUP_ID      
+  });
+  ThoughtsToolEvents.fetch({ async: false});
+  
+  ThoughtsToolEvents.on('add', function() {
+    renderVisualization();
+  });
+
+  ThoughtsToolEvents.on('remove', function() {
+    renderVisualization();
+  });
+
+  //Define editEventView
+  editEventView = new ModelBackoutView({
+    el: "div#edit-event-form",
+    computedAtts: {
+      currentState: {
+        read: function() {
+          var now = new Date(),
+              garbage = this.dummyObservable(), //needs to exist so that knockout will pick up on re-computing the read function when something changes.
+              start = this.view.model.get_field_value('start');        
+          if ( start > now ) { return "scheduling" };
+          if ( this.view.model.id ) { 
+            return "reviewing"; 
+          } else {
+            return "monitoring";
+          };
+        }
+      },
+      inScheduling: {
+        read: function() {
+          this.dummyObservable.notifySubscribers();
+          var state = this.currentState();
+          console.log("in 'inScheduling'; start, now, currentState =", this.start(), new Date(), state);
+
+          if ( state == "scheduling") { return true; }
+          return false;
+        },
+        deferEvaluation: true
+      },
+      inMonitoring: {
+        read: function() {
+          this.dummyObservable.notifySubscribers();
+          var state = this.currentState();
+          console.log("in 'inMonitoring'; start, now, currentState =", this.start(), new Date(), state);
+
+          if (state == "monitoring") { return true; }
+          return false;
+        },
+        deferEvaluation: true
+      },
+      inReviewing: {
+        read: function() {
+          this.dummyObservable.notifySubscribers();
+          var state = this.currentState();
+          console.log("in 'inReviewing'; start, now, currentState =", this.start(), new Date(), state);
+
+          if (state == "reviewing") { return true; }
+          return false;
+        },
+        deferEvaluation: true
+      }                
+    },
+    modelAttsFn: function(model) {
+      return model.get_fields_as_object();
+    }, 
+    arrayDefaults: {
+      "tags": ""
+    },
+    knockoutTemplate: $('script#event-form-template').html() 
+  });
+
+  editEventView.on('model:save', function() {
+    editEventView.model.save({async:false});
+    ThoughtsToolEvents.add(editEventView.model, { merge: true });
+    editEventView.updateModel(
+      new ThoughtsToolEvent({
+        xelement_id: "THOUGHTS-TOOL-EVENTS-GUID",
+        user_id: Dynamo.CURRENT_USER_ID,
+        group_id: Dynamo.CURRENT_GROUP_ID
+      })
+    );
+  });
+
+  editEventView.on('model:delete', function() {
+    ThoughtsToolEvents.remove(editEventView.model);
+    editEventView.model.destroy({async:false, success: function() {
+      alert('Your event was deleted.');
+    }});
+    editEventView.updateModel(
+      new ThoughtsToolEvent({
+        xelement_id: "THOUGHTS-TOOL-EVENTS-GUID",
+        user_id: Dynamo.CURRENT_USER_ID,
+        group_id: Dynamo.CURRENT_GROUP_ID
+      })
+    );
+  });
+
+  editEventView.updateModel = function(newModelObj) {
+    var self = this;
+    self.model = null;
+    self.model = newModelObj;
+    self.model.on('change:fromKnockout', function() {
+      var m = self.model;
+      // More validations needed?
+      if (m.get('end') > m.get('start') ) {
+        var ids = _.map(ThoughtsToolEvents, function(calEvent){ return calEvent.id; });
+        var eventIndex = _.indexOf(ids, m.cid);
+
+        if (eventIndex != -1) {
+          //updating existing event.
+          ThoughtsToolEvents[eventIndex] = _.extend( {}, m.get_fields_as_object(), { id: m.id} )
+        } else {
+          //adding a new one.
+          ThoughtsToolEvents.push( _.extend({}, m.get_fields_as_object(), { cid: m.cid} ) );  
+        };
+
+        renderVisualization();
+      
+      };
+    });
+    self.render();
+  };
+
+  // RENDER EVERYTHING.
+
+  // render goals
+  $('div#log-tracking').html(goalsView.render().$el);
+
+  // Assign a new model & render editEventView
+  editEventView.updateModel(new ThoughtsToolEvent({
+    xelement_id: "THOUGHTS-TOOL-EVENTS-GUID",
+    user_id: Dynamo.CURRENT_USER_ID,
+    group_id: Dynamo.CURRENT_GROUP_ID
+  }));
+
+  // Setup and render current visualization
+  currentVisualization = new ShowArrayView({
+    container: 'div#thought-records-list-container',
+    getArrayFn:  filteredEvents,
+    elementTemplate: $('script#thoughtRecordListTemplate').html(),
+    onElementClick:  function(clickEvent) {
+      var event = ThoughtsToolEvents.get($(clickEvent.currentTarget).data("cid"));
+      debugger;
+      editEventView.updateModel( event );
+      $('div#edit-event-form').effect("highlight", {}, 2000);
+    }
+  });
+  renderVisualization(); 
+
+  // Filter Selection Handler
+  $('div#filters select').change( function(changeEvent) { 
+    renderVisualization(); 
+  });  
+
+};
+
+
+$(function() {
+
+  initializeLoadAndThen(loadPage);
+
+});  
+
+</script>
+</head>
+
+      
+  <body onunload="">
+    <!-- page-container connect -->
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span5">
+          <!-- <h2 class="text-prof-pink">My Thoughts Tool</h2> -->
+          <!-- <div id="log-tracking"> -->
+            <!-- <ul id="goals"></ul> -->
+          <!-- </div> -->
+
+          <div id="edit-event-form" class="well well-small well-shadow">
+            <!-- form -->
+          </div>
+
+          <div class="btn-toolbar">
+            <button class="btn">&larr; My Values, My Progress</button>
+          </div>
+        </div>
+        <div class="span7 well well-small well-shadow">
+          <div id="visualizations" class="row-fluid">
+          </div> 
+          <div id="filters" class="row-fluid">
+            <div class="span3 select-multiple">
+              <label class="span11">Time</label>
+              <select id="time-filters" multiple="multiple" class="span11">
+                <option value="mornings">Mornings</option>
+                <option value="afternoons">Afternoons</option>
+                <option value="evenings">Evenings</option>
+              </select>
+            </div>
+            <div class="span3 select-multiple">
+              <label class="span11">Topic</label>
+              <select id="topic-filters" multiple="multiple" class="span11">
+                <option value="Work">Work</option>
+                <option value="Family">Family</option>
+                <option value="School">School</option>
+                <option value="Chores">Chores</option>
+                <option value="Leisure">Leisure</option>
+                <option value="Self-care">Self-care</option>
+              </select>
+            </div>
+            <div class="span3 select-multiple">
+              <label class="span11">Distortions</label>
+              <select id="distortion-filters" multiple="multiple" class="span11">
+                <option value="all_or_nothing">All-or-nothing Thinking</option>
+                <option value="overgeneralization">Overgeneralization</option>
+                <option value="mental_filter">Mental Filter</option>                
+                <option value="discounting_positives">Discounting the positives</option>
+                <option value="jump_to_conclusions">Jumping to conclusions</option>
+                <option value="mag_or_min">Magnification or Minimization</option>                
+                <option value="emotional_to_reasoning">Emotional reasoning</option>
+                <option value="shoulding">"Should" statements</option>
+                <option value="labeling">Labeling</option>
+                <option value="personalization">Personalization and blame</option>                                
+              </select>
+            </div>
+            <div class="span3 select-multiple">
+              <label class="span11">Emotion</label>
+              <select id="emotion-filters" multiple="multiple" class="span11">
+                <option value="sad">Sad</option>
+                <option value="happy">Happy</option>
+                <option value="angry">Angry</option>
+                <option value="anxious">Anxious</option>
+              </select>
+            </div>
+            <div class="clearfix"></div>
+          </div> 
+          <h2><span class="h2-header">Events</span></h2>
+          <div id="thought-records-list-container">
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
