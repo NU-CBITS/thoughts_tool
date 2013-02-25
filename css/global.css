@@ -442,6 +442,11 @@ hr.divider-prog-pink {
   content: '';
 }
 
+/* latest in headers - 2/25/13 */
+.navbar .brand {
+ color:#00b1c0; 
+}
+
 /* Widget containers - to replace former header styling */
 
 .widget {

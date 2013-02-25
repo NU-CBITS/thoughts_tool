@@ -11,6 +11,19 @@
 
 <style media="screen" type="text/css">
 
+  /*over-ride bs navbar-inner border-radius*/
+  .navbar-inner {
+    -webkit-border-radius: 4px 4px 0px 0px;
+     -moz-border-radius: 4px 4px 0px 0px;
+          border-radius: 4px 4px 0px 0px;
+  }
+  /*over-ride widget-content border-radius*/
+  .widget-content {
+    -webkit-border-radius: 0px 0px 4px 4px ;
+     -moz-border-radius: 0px 0px 4px 4px ;
+          border-radius: 0px 0px 4px 4px ;
+  }
+
   .input-medium-large {
     width: 80%;
   }
@@ -89,7 +102,13 @@
 <script type='text/javascript' src='js/our_filter_class_instance.js'></script>
 
 <script id="event-form-template" type='text/html'>
-  <div class="widget-header text-center"><h3>Form</h3></div>
+
+  <div class="navbar" style="margin-bottom: 0px;">
+    <div class="navbar-inner" style="border-bottom-width:0px;">
+      <a class="brand">Form</a>
+    </div>
+  </div>
+
   <div class="widget-content">
     <form class="form-horizontal form-condensed">
       <div class="row-fluid">
@@ -870,7 +889,11 @@ $(function() {
         <div class="span7">
           <div class="widget">
 
-            <div class="widget-header text-center"><h3>Events</h3></div> <!-- widget-header -->
+            <div class="navbar" style="margin-bottom: 0px;">
+              <div class="navbar-inner" style="border-bottom-width:0px;">
+                <a class="brand">Events</a>
+              </div>
+            </div>
 
             <div class="widget-content">
 
