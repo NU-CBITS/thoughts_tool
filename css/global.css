@@ -743,6 +743,10 @@ background-image: -webkit-gradient(
   color: #555;
   vertical-align: middle;
 }
+.widget-header.navbar {
+  margin-bottom: 0px;
+}
+
 .widget-content {
   padding: 20px 15px 15px;
   background: #FFF;

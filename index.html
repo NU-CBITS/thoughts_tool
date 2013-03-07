@@ -53,7 +53,18 @@
     position: absolute;
     left: 5px;
   }
-
+  #filters-container {
+    position:relative;
+  }
+  #filters.popover {
+    display:none;
+    width: inherit;
+    position: absolute;
+    margin-top: 0px;
+  }
+  #filters.popover .arrow {
+    left: 96%;
+  }
 </style>
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="js/vendor/jquery-ui-1.9.2.custom.min.js"></script>
@@ -834,7 +845,7 @@ loadPage = function() {
   // Filter Selection Handler
   $('div#filters select').change( function(changeEvent) { 
     renderVisualization(); 
-  });  
+  });
 
 };
 
@@ -888,7 +899,15 @@ $(function() {
         <div class="span7">
           <div class="widget" style="margin-bottom:0px;">
 
-            <div class="widget-header prog-purple-lt"><h3>Events</h3></div>
+            <div class="widget-header prog-purple-lt navbar">
+              <h3>Events</h3>
+              <ul class="nav pull-right accordion-header">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle">Filter <b class="caret"></b>
+                  </a>
+                </li>
+              </ul>
+            </div>
 
             <div class="widget-content" style="overflow-y: scroll;height:530px;">
 
