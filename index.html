@@ -50,9 +50,6 @@
   .intensity-value {
     padding-right:15px;
   }
-  .container-fluid {
-    padding-top:20px;
-  }
   @media (max-width: 480px) {
     .form-horizontal .controls {
       margin-left: 0;
@@ -103,11 +100,7 @@
 
 <script id="event-form-template" type='text/html'>
 
-  <div class="navbar" style="margin-bottom: 0px;">
-    <div class="navbar-inner" style="border-bottom-width:0px;">
-      <a class="brand">Form</a>
-    </div>
-  </div>
+  <div class="widget-header prog-purple-lt"><h3>Form</h3></div>
 
   <div class="widget-content">
     <form class="form-horizontal form-condensed">
@@ -864,17 +857,33 @@ $(function() {
 
 </script>
 </head>
+  
+  <body>
 
-      
-  <body onunload="">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand cbits" href="../../social_networking/index.html">CBITs</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right">
+              <li class="">
+                <a href="#">Contact Us</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- page-container connect -->
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top:60px;">
       <div class="row-fluid">
         <div class="span5">
-          <!-- <h2 class="text-prof-pink">My Thoughts Tool</h2> -->
-          <!-- <div id="log-tracking"> -->
-            <!-- <ul id="goals"></ul> -->
-          <!-- </div> -->
 
           <div id="edit-event-form" class="widget">
             <!-- form -->
@@ -889,11 +898,7 @@ $(function() {
         <div class="span7">
           <div class="widget">
 
-            <div class="navbar" style="margin-bottom: 0px;">
-              <div class="navbar-inner" style="border-bottom-width:0px;">
-                <a class="brand">Events</a>
-              </div>
-            </div>
+            <div class="widget-header prog-purple-lt"><h3>Events</h3></div>
 
             <div class="widget-content">
 
@@ -955,5 +960,7 @@ $(function() {
         </div> <!-- widget -->
       </div>
     </div>
+  
   </body>
+
 </html>

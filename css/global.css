@@ -115,8 +115,10 @@ div.label_and_input {
   -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); 
   
-  font-size:1em; text-align:left;
-  color:#1e497c; background-color:#FFFFFF;
+  font-size:1em;
+  text-align:left;
+  color:#1e497c;
+  background-color:#FFFFFF;
 }
 ul#goals {
   list-style-type: none;
@@ -165,6 +167,49 @@ hr.divider-prog-pink {
   margin:10px 0px;
 }
 
+/* summary items */
+.summary-item-container {
+  margin-bottom: 20px;
+  padding-bottom:20px;
+  border-bottom: 1px solid #E3E3E3;
+}
+.summary-content-container {
+  padding: 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: white;
+  /*border-bottom: 1px solid #E3E3E3;*/
+}
+.summary-content-container img {
+  margin-right:10px;
+}
+.summary-item-container  [class^="icon-"] {
+  line-height: 30px;
+  font-size: 25px;
+  color:white;
+  /*text-shadow: 4px 4px 5px #888;*/
+}
+.thought-summary {
+  background: #fee727;
+  /*color:white;*/
+}
+.lesson-summary {
+  background: #00B1C9;
+  color:white;
+}
+.connect-summary {
+  background: #55a51a;
+  color:white;
+}
+.mood-summary {
+  background: #ae0060;
+  color:white;
+}
+.do-summary {
+  background: #fa6801;
+  color:white;
+}
 /* list-items */
 .list-item {
   margin: 0 0 20px;
@@ -180,6 +225,18 @@ hr.divider-prog-pink {
   font-size: 16px;
   font-weight: 300;
   line-height: 25px;
+}
+
+/* Lesson */
+.lesson-item {
+  border-left: 10px solid #00b1c0;
+  background-color: #eeeeee;
+}
+
+/* Do */
+.do-item {
+  border-left: 10px solid orange;
+  background-color: #eeeeee;
 }
 
 /* health records */
@@ -257,6 +314,96 @@ hr.divider-prog-pink {
   background-color: #F3FAFA
 }
 
+/* orange */
+html body .widget-content.orange,
+html body .widget-tile.orange {
+  background-color: #fa6801;
+}
+html body .widget-header.orange h3 {
+  color: #fa6801;
+}
+
+/* professional-gray-widget-tile (profglt) */
+html body .widget-content.profglt,
+html body .widget-tile.profglt {
+  background-color: #6d6e71;
+}
+html body .widget-header.profglt h3 {
+  color: #6d6e71;
+}
+
+/* professional-green-widget-tile (prof-green-lt) */
+html body .widget-content.prof-green-lt,
+html body .widget-tile.prof-green-lt {
+  background-color: #55a51a;
+}
+html body .widget-header.prof-green-lt h3 {
+  color: #55a51a;
+}
+
+/* progressive-green-widget-tile (prog-green-lt) */
+html body .widget-content.prog-green-lt,
+html body .widget-tile.prog-green-lt {
+  background-color: #8ed400;
+}
+html body .widget-header.prog-green-lt h3 {
+  color: #8ed400;
+}
+
+/* professional-blue-widget-tile (prof-blue-lt) */
+html body .widget-content.prof-blue-lt,
+html body .widget-tile.prof-blue-lt {
+  background-color: #0082bf;
+}
+html body .widget-header.prof-blue-lt h3 {
+  color: #0082bf;
+}
+
+/* progessive-blue-widget-tile (prog-blue-lt) */
+html body .widget-content.prog-blue-lt,
+html body .widget-tile.prog-blue-lt {
+  background-color: #00b1c0;
+}
+html body .widget-header.prog-blue-lt h3 {
+  color: #00b1c0;
+}
+
+/* professional-red-widget-tile (prof-red-lt) */
+html body .widget-content.prof-red-lt,
+html body .widget-tile.prof-red-lt {
+  background-color: #810262;
+}
+html body .widget-header.prof-red-lt h3 {
+  color: #810262;
+}
+
+/* progressive-red-widget-tile (prog-red-lt) */
+html body .widget-content.prog-red-lt,
+html body .widget-tile.prog-red-lt {
+  background-color: #ae0060;
+}
+html body .widget-header.prog-red-lt h3 {
+  color: #ae0060;
+}
+
+/* professional-purple-widget-tile (prof-purple-lt) */
+html body .widget-content.prof-purple-lt,
+html body .widget-tile.prof-purple-lt {
+  background-color: #331d54;
+}
+html body .widget-header.prof-purple-lt h3 {
+  color: #331d54;
+}
+
+/* progressive-purple-widget-tile (prog-purple-lt) */
+html body .widget-content.prog-purple-lt,
+html body .widget-tile.prog-purple-lt {
+  background-color: #520063;
+}
+html body .widget-header.prog-purple-lt h3 {
+  color: #520063;
+}
+
 /* green */
 .green-header {
   /*text-transform:uppercase;*/
@@ -287,6 +434,11 @@ hr.divider-prog-pink {
     color-stop(0.35, rgb(13,135,42)),
     color-stop(1, rgb(56,235,68))
   );
+  color:white;
+}
+
+.green-background {
+  background-color: #D3EAD9;
   color:white;
 }
 
@@ -321,6 +473,11 @@ hr.divider-prog-pink {
     color-stop(1, rgb(235,82,108))
   );
   color:white;
+}
+
+.red-background {
+  background-color: #F4CCCC;
+  color:#FFFFFF;
 }
 
 
@@ -377,21 +534,31 @@ hr.divider-prog-pink {
   background-color: #f3ebde;
 }
 
+.yellow-background {
+  background-color: #ffe599;
+  color:#FFFFFF;
+}
+
 /* purple */
 .purple-tile {
-  background-image: linear-gradient(bottom, rgb(133,6,196) 35%, rgb(204,166,230) 100%);
-  background-image: -o-linear-gradient(bottom, rgb(133,6,196) 35%, rgb(204,166,230) 100%);
-  background-image: -moz-linear-gradient(bottom, rgb(133,6,196) 35%, rgb(204,166,230) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgb(133,6,196) 35%, rgb(204,166,230) 100%);
-  background-image: -ms-linear-gradient(bottom, rgb(133,6,196) 35%, rgb(204,166,230) 100%);
+background-image: linear-gradient(bottom, rgb(213,153,255) 39%, rgb(173,45,252) 1%);
+background-image: -o-linear-gradient(bottom, rgb(213,153,255) 39%, rgb(173,45,252) 1%);
+background-image: -moz-linear-gradient(bottom, rgb(213,153,255) 39%, rgb(173,45,252) 1%);
+background-image: -webkit-linear-gradient(bottom, rgb(213,153,255) 39%, rgb(173,45,252) 1%);
+background-image: -ms-linear-gradient(bottom, rgb(213,153,255) 39%, rgb(173,45,252) 1%);
 
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0.35, rgb(133,6,196)),
-    color-stop(1, rgb(204,166,230))
-  );
+background-image: -webkit-gradient(
+  linear,
+  left bottom,
+  left top,
+  color-stop(0.39, rgb(213,153,255)),
+  color-stop(0.01, rgb(173,45,252))
+);
+  color:white;
+}
+
+.purple-background {
+  background-color: #D9D2E9;
   color:white;
 }
 
@@ -408,46 +575,26 @@ hr.divider-prog-pink {
   background-color: #d1d2dc;
 }
 
-#filter-container {
-  position:relative;
-}
-
-#filters {
-  display:none;
-  padding: 10px;
-}
-
-#filter-container .dropdown-menu:before {
-  position: absolute;
-  top: -7px;
-  /*left: 9px;*/
-  right: 9px;
-  display: inline-block;
-  border-right: 7px solid transparent;
-  border-bottom: 7px solid #ccc;
-  border-left: 7px solid transparent;
-  border-bottom-color: rgba(0, 0, 0, 0.2);
-  content: '';
-}
-
-#filter-container .dropdown-menu:after {
-  position: absolute;
-  top: -6px;
-  /*left: 10px;*/
-  right: 10px;
-  display: inline-block;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #ffffff;
-  border-left: 6px solid transparent;
-  content: '';
-}
-
 /* latest in headers - 2/25/13 */
 .navbar .brand {
  color:#00b1c0; 
 }
+#person .navbar .brand {
+ color:#0082bf; 
+}
+.navbar .brand.cbits {
+ color:#999999;
+}
+.navbar .brand.cbits:hover {
+ color:#ffffff;
+}
 
 /* Widget containers - to replace former header styling */
+/* container from bt modal - augmented */
+.connect-modal, .widget.connect-modal  {
+  /*z-index: 1050;*/
+  clear:none;
+}
 
 .widget {
   position: relative;
@@ -478,6 +625,15 @@ hr.divider-prog-pink {
   border-top-right-radius: 4px;
   -webkit-background-clip: padding-box;
 }
+
+.widget-header.widget-header-h1 {
+  height:60px;
+}
+.widget-header.widget-header-h1 i {
+  color:inherit;
+  font-size: 38.5px;
+}
+
 .widget-header h3 { 
   position: relative;
   top: 2px;
@@ -487,10 +643,10 @@ hr.divider-prog-pink {
   font-size: 14px;
   font-weight: 800;
   color: #555;
-  /*color:#00b1c0;*/
   line-height: 18px;
   text-shadow: 1px 1px 2px rgba(255,255,255,.5);
 }
+
 .widget-header [class^="icon-"], .widget-header [class*=" icon-"] {
   display: inline-block;
   margin-left: 13px;
@@ -498,6 +654,9 @@ hr.divider-prog-pink {
   font-size: 16px;
   color: #555;
   vertical-align: middle;
+}
+.widget-header.navbar {
+  margin-bottom: 0px;
 }
 .widget-content {
   padding: 20px 15px 15px;
@@ -753,29 +912,6 @@ a.page-next i {
 .green{color:green;}
 .blue{color:blue;}
 .yellow{color:yellow;}
-
-/* container from bt modal - augmented */
-.connect-modal  {
-  padding: 9px 15px;
-  z-index: 1050;
-  margin:20px 0px;
-  background-color: #ffffff;
-  border: 1px solid #999;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  *border: 1px solid #999;
-  /* IE6-7 */
-
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
-  outline: none;
-}
 
 .content { 
   color: #EEE;
