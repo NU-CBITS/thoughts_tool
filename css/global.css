@@ -314,7 +314,44 @@ hr.divider-prog-pink {
   background-color: #F3FAFA
 }
 
+/* STREAMING INFO */
+.stream .item {
+  border-bottom: 1px solid #EEE;
+  padding: 10px 0px 30px 60px;
+}
+.stream .item .stream-icon {
+  display: inline-block;
+  background-color: #CCC;
+  border-radius: 4px;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  margin-left: -40px;
+  margin-bottom: -40px;
+  position: relative;
+  top: 15px;
+  right: 20px;
+  float: left;
+}
+.stream .item .stream-icon i {
+  color:#FFF;
+  height: 40px;
+  line-height: 40px;
+  font-size:25px;
+}
+.stream .item h4 {
+  margin-bottom: 6px; }
+.stream .item p {
+  color: #777;
+}
+.stream .item p.date {
+  padding: 0;
+  float: right;
+  margin-top: 10px;
+}
+
 /* orange */
+html body .stream .item .orange,
 html body .widget-content.orange,
 html body .widget-tile.orange {
   background-color: #fa6801;
@@ -324,6 +361,7 @@ html body .widget-header.orange h3 {
 }
 
 /* professional-gray-widget-tile (profglt) */
+html body .stream .item .profglt-lt,
 html body .widget-content.profglt,
 html body .widget-tile.profglt {
   background-color: #6d6e71;
@@ -333,6 +371,7 @@ html body .widget-header.profglt h3 {
 }
 
 /* professional-green-widget-tile (prof-green-lt) */
+html body .stream .item .prof-green-lt,
 html body .widget-content.prof-green-lt,
 html body .widget-tile.prof-green-lt {
   background-color: #55a51a;
@@ -342,6 +381,7 @@ html body .widget-header.prof-green-lt h3 {
 }
 
 /* progressive-green-widget-tile (prog-green-lt) */
+html body .stream .item .prog-green-lt,
 html body .widget-content.prog-green-lt,
 html body .widget-tile.prog-green-lt {
   background-color: #8ed400;
@@ -351,6 +391,7 @@ html body .widget-header.prog-green-lt h3 {
 }
 
 /* professional-blue-widget-tile (prof-blue-lt) */
+html body .stream .item .prof-blue-lt,
 html body .widget-content.prof-blue-lt,
 html body .widget-tile.prof-blue-lt {
   background-color: #0082bf;
@@ -360,6 +401,7 @@ html body .widget-header.prof-blue-lt h3 {
 }
 
 /* progessive-blue-widget-tile (prog-blue-lt) */
+html body .stream .item .prog-blue-lt,
 html body .widget-content.prog-blue-lt,
 html body .widget-tile.prog-blue-lt {
   background-color: #00b1c0;
@@ -369,6 +411,7 @@ html body .widget-header.prog-blue-lt h3 {
 }
 
 /* professional-red-widget-tile (prof-red-lt) */
+html body .stream .item .prof-red-lt,
 html body .widget-content.prof-red-lt,
 html body .widget-tile.prof-red-lt {
   background-color: #810262;
@@ -378,6 +421,7 @@ html body .widget-header.prof-red-lt h3 {
 }
 
 /* progressive-red-widget-tile (prog-red-lt) */
+html body .stream .item .prog-red-lt,
 html body .widget-content.prog-red-lt,
 html body .widget-tile.prog-red-lt {
   background-color: #ae0060;
@@ -387,6 +431,7 @@ html body .widget-header.prog-red-lt h3 {
 }
 
 /* professional-purple-widget-tile (prof-purple-lt) */
+html body .stream .item .prof-purple-lt,
 html body .widget-content.prof-purple-lt,
 html body .widget-tile.prof-purple-lt {
   background-color: #331d54;
@@ -396,6 +441,7 @@ html body .widget-header.prof-purple-lt h3 {
 }
 
 /* progressive-purple-widget-tile (prog-purple-lt) */
+html body .stream .item .prog-purple-lt,
 html body .widget-content.prog-purple-lt,
 html body .widget-tile.prog-purple-lt {
   background-color: #520063;
@@ -575,6 +621,40 @@ background-image: -webkit-gradient(
   background-color: #d1d2dc;
 }
 
+#filter-container {
+  position:relative;
+}
+
+#filters {
+  display:none;
+  padding: 10px;
+}
+
+#filter-container .dropdown-menu:before {
+  position: absolute;
+  top: -7px;
+  /*left: 9px;*/
+  right: 9px;
+  display: inline-block;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #ccc;
+  border-left: 7px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  content: '';
+}
+
+#filter-container .dropdown-menu:after {
+  position: absolute;
+  top: -6px;
+  /*left: 10px;*/
+  right: 10px;
+  display: inline-block;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #ffffff;
+  border-left: 6px solid transparent;
+  content: '';
+}
+
 /* latest in headers - 2/25/13 */
 .navbar .brand {
  color:#00b1c0; 
@@ -626,12 +706,20 @@ background-image: -webkit-gradient(
   -webkit-background-clip: padding-box;
 }
 
+/*to be removed*/
 .widget-header.widget-header-h1 {
   height:60px;
+}
+.widget-header.widget-header-h1 h1 {
+  display:inline-block;
 }
 .widget-header.widget-header-h1 i {
   color:inherit;
   font-size: 38.5px;
+}
+.widget-header.widget-header-h1 a {
+  margin-top:10px;
+  margin-right:13px;
 }
 
 .widget-header h3 { 
@@ -654,9 +742,6 @@ background-image: -webkit-gradient(
   font-size: 16px;
   color: #555;
   vertical-align: middle;
-}
-.widget-header.navbar {
-  margin-bottom: 0px;
 }
 .widget-content {
   padding: 20px 15px 15px;
