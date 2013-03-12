@@ -65,17 +65,29 @@
   #filters.popover .arrow {
     left: 96%;
   }
+  #filters label{
+    clear: left;
+  }
+
+  div#thought-records-list-container .item { 
+    cursor: hand; 
+    cursor: pointer; 
+  }
+
 </style>
 
-<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="dynamo/vendor/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/vendor/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="js/vendor/underscore-1.4.2.min.js"></script>
-<script type="text/javascript" src="js/underscore-t.js"></script>
+
+<script type="text/javascript" src="dynamo/vendor/underscore-1.4.2.min.js"></script>
+<script type="text/javascript" src="dynamo/vendor/tee.js"></script>
+<script type="text/javascript" src="dynamo/vendor/backbone-0.9.9.dev.js"></script>
+
 <script type="text/javascript" src="js/vendor/knockout-2.2.min.js"></script>
 <script type="text/javascript" src="js/our_knockout_extensions.js"></script>
-<script type="text/javascript" src="js/vendor/backbone-0.9.9.dev.js"></script>
 <script type="text/javascript" src="js/backbone_knockout_view.js"></script>
+
 <script type="text/javascript" src="dynamo/Core.js"></script>
 <script type="text/javascript">
   Dynamo.TriremeURL = "https://165.124.171.122:3347"
@@ -97,7 +109,7 @@
 
 <script type="text/javascript" src="js/site-wide-stuff.js"></script>
 
-<script type='text/javascript' src='js/slider.js'></script>
+// <script type='text/javascript' src='js/slider.js'></script>
 
 <script type='text/javascript' src='js/our_filter_class.js'></script>
 <script type='text/javascript' src='js/our_filter_class_instance.js'></script>
@@ -352,18 +364,18 @@
 </script>
 
 <script id="thoughtRecordListTemplate" type="text/html">
-  <div class="item" data-cid="<%= item.cid %>">
+  <div class="item" data-cid="(%= item.cid %)">
     <div class="stream-icon prog-purple-lt"><img src="http://mohrlab.northwestern.edu/ProgressionRules/images/thought.png"></div>
-    <p class="date"><%= item.start.toString().replace("GMT-0600 (CST)", "") %></p>
-    <h4><%= item.situation %></h4>
+    <p class="date">(%= item.start.toString().replace("GMT-0600 (CST)", "") %)</p>
+    <h4>(%= item.situation %)</h4>
     <div class="row-fluid">
       <p style="color:black;">
-        From: <%= item.start.toString() %><br />
-        Until: <%= item.end.toString() %><br />
-        Thought: <%= item.thought %><br />
-        Emotion: <%= item.emotion %> (<%= item.emotion_intensity %>)<br />
-        Alternative Thought: <%= item.alternative_thought %><br />
-        Outcome: <%= item.outcome %> (<%= item.outcome_intensity %>)<br />
+        From: (%= item.start.toString() %)<br />
+        Until: (%= item.end.toString() %)<br />
+        Thought: (%= item.thought %)<br />
+        Emotion: (%= item.emotion %) ((%= item.emotion_intensity %))<br />
+        Alternative Thought: (%= item.alternative_thought %)<br />
+        Outcome: (%= item.outcome %) ((%= item.outcome_intensity %))<br />
       </p>
     </div>
   </div>
@@ -399,171 +411,13 @@ ThoughtsToolEvent = Dynamo.Data.extend({
 
 });
 
-GoalsView = Backbone.View.extend({
-
-  initialize: function() {
-    _.bindAll(this);
-    this.currentStatusToDisplay = "unanswered";
-
-    this.unansweredBtnClass = "";
-    this.completedBtnClass = "";
-    this.ignoredBtnClass = "";
-
-    this.goals = this.options.goals;
-    this.goalData = this.options.goalData;
-  },
-
-  events: {
-    // "click button.btn-filter-goal-data": "filterGoalData",
-    "click button.unanswered": "setToUnanswered",
-    "click button.completed": "setToCompleted",
-    "click button.ignored": "setToIgnored"
-  },
-  setToUnanswered: function() {
-    this.currentStatusToDisplay = "unanswered";
-    this.render();
-  },
-
-  setToCompleted: function() {
-    this.currentStatusToDisplay = "completed";
-    this.render();
-  },  
-
-  setToIgnored: function() {
-    this.currentStatusToDisplay = "ignored";
-    this.render();
-  },    
-
-  template: function() {
-    this.setButtonStatus();
-    return _.template('<div class="well well-small well-shadow header-well"><h2 style="display:inline;">Goals</h2><div class="btn-group pull-right" data-toggle="buttons-radio"><button type="button" data-status="unanswered" class="btn-filter-goal-data btn unanswered '+this.unansweredBtnClass+'">Unanswered</button><button data-status="completed" type="button" class="btn-filter-goal-data btn completed '+this.completedBtnClass+'">Completed</button><button data-status="ignored" type="button" class="btn-filter-goal-data btn ignored '+this.ignoredBtnClass+'">Ignored</button></div><ul id="goals"></ul></div>');
-  },
-
-  // filterGoalData: function(clickEvent) {
-  //   var target = clickEvent.currentTarget
-  //   var status = $(target).data('status')
-  //   console.log("status", status)
-  //   this.currentStatusToDisplay = status
-  //   this.render()
-  // },
-
-  goalSnippet: function(goalXEL, alertKlass) {
-    xelementID = goalXEL.id
-    goalName = goalXEL.metacontent().name
-    goalDescription = goalXEL.metacontent().description
-    return ""+
-      "<li><div class=\"alert "+alertKlass+"\">"+
-        "<div class=\"pull-right\">"+
-          "<button type=\"button\" class=\"btn set-goal ignore btn-remove btn-mini\" data-dismiss=\"alert\" data-xelement-id=\""+xelementID+"\">"+"<i class=\"icon-remove\"></i>"+"</button>"+
-          "<button type=\"button\" class=\"btn set-goal btn-ok btn-mini\" data-dismiss=\"alert\" data-xelement-id=\""+xelementID+"\"><i class=\"icon-ok set-goal\" data-xelement-id=\""+xelementID+"\"></i></button>"+
-        "</div>"+
-        "<div><strong>"+goalName+"</strong> - "+goalDescription+"</div>"+
-      "</div></li>"
-  },
-
-  appendGoalData: function() {
-    var self = this
-    var data_to_display = []
-    var ul = self.$el.find('ul#goals')
-    ThoughtsToolGoals.each(function(goal_xel) {
-      var relevantData = ThoughtsToolGoalData.find(function(ud) {
-        return (ud.get("xelement_id") == goal_xel.id) 
-      });
-      switch (self.currentStatusToDisplay) {
-        case "unanswered":
-          if (!relevantData.id) {
-            ul.append( self.goalSnippet(goal_xel, "alert-error") );
-          }
-        break;
-        case "completed":
-          if (relevantData.get_field_value('status') == "completed") {
-            ul.append( self.goalSnippet(goal_xel, "alert-success") );
-          };
-          $('button.btn-ok').hide();
-        break;
-        case "ignored":
-          if (relevantData.get_field_value('status') == "ignored") {
-            ul.append( self.goalSnippet(goal_xel, "alert-info") );
-          };
-          $('button.btn-remove').hide();
-        break;
-      };
-    });
-  },
-
-  placeGoalTooltips: function() {
-    this.$el.find("i.icon-remove").tooltip({
-      title: "Ignore Goal"
-    });
-    this.$el.find("i.icon-ok").tooltip({
-      title: "Check if Completed"
-    });
-  },
-
-  render: function() {
-    this.$el.html(this.template())
-    this.appendGoalData();
-    this.setGoalHandlers();
-    this.placeGoalTooltips();
-    return this
-  },
-
-  setButtonStatus: function(){
-    var self = this;
-    self.unansweredBtnClass = "";
-    self.completedBtnClass = "";
-    self.ignoredBtnClass = "";
-
-    switch (this.currentStatusToDisplay) {
-      case "unanswered":
-        self.unansweredBtnClass = "active";
-      break;
-      case "completed":
-        self.completedBtnClass = "active";
-      break;
-      case "ignored":
-        self.ignoredBtnClass = "active";
-      break;
-    }
-  },
-
-  setGoalHandlers: function() {
-    self = this;
-    this.$el.find('.set-goal').click(function(event) {
-
-      var target = $(event.currentTarget);
-      var xelementID = target.data('xelement-id')
-      console.log("xelement", xelementID)
-      
-      var data = ThoughtsToolGoalData.find(function(goalData) {
-        return (goalData.get("xelement_id") == xelementID) 
-      });
-
-      if (target.hasClass('ignore')) {
-        data.set_field('status', "string", "ignored")
-      } else {
-        data.set_field('status', "string", "completed")
-      };
-
-      data.save();
-
-      console.log("status", data.get_field_value('status'))
-      self.render()
-    })
-
-  }
-
-
-});
-
-
 function renderVisualization() {
   currentVisualization.render();
 };
 
 function selectedValues(selector) {
   var r = [];
-  _.map($(':selected', selector), function(selected){ 
+  _.map($(':checked', selector), function(selected){ 
     r.push( $(selected).text() ); 
   });
   return r;
@@ -649,47 +503,6 @@ function filteredEvents() {
 
 loadPage = function() {
 
-  // Setup Thought Goals  
-
-  ThoughtsToolGoals = new XelementCollection(XELEMENTS.filter(function(xel) {
-    return (xel.get_field_value("title") == "Thought  Goal")
-  })); 
-
-  ThoughtsToolGoalData = new DataCollection(null);
-
-  ThoughtsToolGoals.each(function(goal_xel) {
-    var data;
-
-    //Fetch any existing data on the server for this user and goal.
-    var dc = new DataCollection(null, {
-      xelement_id: goal_xel.id,
-      user_id: Dynamo.CURRENT_USER_ID,
-      group_id: Dynamo.CURRENT_GROUP_ID      
-    });
-    dc.fetch({async: false});
-
-    if (dc.length > 0) {
-      data = dc.first();
-    }
-    else {
-      //if length is 0, then no data exists, create new object.
-      data = new Dynamo.Data({
-        server_url: Dynamo.TriremeURL,
-        xelement_id: goal_xel.id,
-        user_id: Dynamo.CURRENT_USER_ID,
-        group_id: Dynamo.CURRENT_GROUP_ID       
-      });
-    };
-    
-    ThoughtsToolGoalData.add(data); 
-    //either way, it gets added to the collection of user data about calendar goals.
-  });
-
-  goalsView = new GoalsView({
-    goals:  ThoughtsToolGoals,
-    goalData: ThoughtsToolGoalData
-  });
-
   // Setup collection of events
   ThoughtsToolEvents = new DataCollection(null, {
     xelement_id: "THOUGHTS-TOOL-EVENTS-GUID",
@@ -760,9 +573,7 @@ loadPage = function() {
     modelAttsFn: function(model) {
       return model.get_fields_as_object();
     }, 
-    arrayDefaults: {
-      "tags": ""
-    },
+    arrayDefaults: { "tags": "" },
     knockoutTemplate: $('script#event-form-template').html() 
   });
 
@@ -821,7 +632,7 @@ loadPage = function() {
   // RENDER EVERYTHING.
 
   // render goals
-  $('div#log-tracking').html(goalsView.render().$el);
+  // $('div#log-tracking').html(goalsView.render().$el);
 
   // Assign a new model & render editEventView
   editEventView.updateModel(new ThoughtsToolEvent({
@@ -848,11 +659,24 @@ loadPage = function() {
     renderVisualization(); 
   });
 
+  $("a#show-filter-container").on('click', function(e){
+    e.preventDefault();
+    $("#filters").toggle();
+    var li = $(this).closest('li');
+    if (li.hasClass('active')) {
+      li.removeClass('active');
+    } else {
+      li.addClass('active');
+    };
+    return false;
+  });  
+
 };
 
 
 $(function() {
 
+  Dynamo.initialize();
   initializeLoadAndThen(loadPage);
 
 });  
@@ -901,10 +725,10 @@ $(function() {
           <div class="widget" style="margin-bottom:0px;">
 
             <div class="widget-header prog-purple-lt navbar">
-              <h3>Events</h3>
+              <h3>Thought Records</h3>
               <ul class="nav pull-right accordion-header">
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle">Filter <b class="caret"></b>
+                  <a id="show-filter-container" href="#" class="dropdown-toggle">Filter <b class="caret"></b>
                   </a>
                 </li>
               </ul>
@@ -915,48 +739,86 @@ $(function() {
               <div id="visualizations"></div>
 
               <div id="filters">
-                <div class="span3 select-multiple">
-                  <label class="span11">Time</label>
-                  <select id="time-filters" multiple="multiple" class="span11">
-                    <option value="mornings">Mornings</option>
-                    <option value="afternoons">Afternoons</option>
-                    <option value="evenings">Evenings</option>
-                  </select>
+                <div class="span3">
+                  <div class="span12">Time</div>
+                  <label class="checkbox" for="filter-mornings">
+                    <input id="filter-mornings" type="checkbox" value="mornings">Mornings
+                  </label>
+                  <label class="checkbox" for="filter-afternoons">
+                    <input id="filter-afternoons" type="checkbox" value="afternoons">Afternoons
+                  </label>
+                  <label class="checkbox" for="filter-evenings">
+                    <input id="filter-evenings" type="checkbox" value="evenings">Evenings
+                  </label>
                 </div>
-                <div class="span3 select-multiple">
-                  <label class="span11">Topic</label>
-                  <select id="topic-filters" multiple="multiple" class="span11">
-                    <option value="Work">Work</option>
-                    <option value="Family">Family</option>
-                    <option value="School">School</option>
-                    <option value="Chores">Chores</option>
-                    <option value="Leisure">Leisure</option>
-                    <option value="Self-care">Self-care</option>
-                  </select>
+                <div class="span3">
+                  <div class="span12">Topic</div>
+                  <label class="checkbox" for="filter-work">
+                    <input id="filter-work" type="checkbox" value="Work">Work
+                  </label>
+                  <label class="checkbox" for="filter-family">
+                    <input id="filter-family" type="checkbox" value="Family">Family
+                  </label>
+                  <label class="checkbox" for="filter-school">
+                    <input id="filter-school" type="checkbox" value="School">School
+                  </label>
+                  <label class="checkbox" for="filter-chores">
+                    <input id="filter-chores" type="checkbox" value="Chores">Chores
+                  </label>
+                  <label class="checkbox" for="filter-leisure">
+                    <input id="filter-leisure" type="checkbox" value="Leisure">Leisure
+                  </label>
+                  <label class="checkbox" for="filter-self-care">
+                    <input id="filter-self-care" type="checkbox" value="Self-care">Self-care
+                  </label>
                 </div>
-                <div class="span3 select-multiple">
-                  <label class="span11">Distortions</label>
-                  <select id="distortion-filters" multiple="multiple" class="span11">
-                    <option value="all_or_nothing">All-or-nothing Thinking</option>
-                    <option value="overgeneralization">Overgeneralization</option>
-                    <option value="mental_filter">Mental Filter</option>                
-                    <option value="discounting_positives">Discounting the positives</option>
-                    <option value="jump_to_conclusions">Jumping to conclusions</option>
-                    <option value="mag_or_min">Magnification or Minimization</option>                
-                    <option value="emotional_to_reasoning">Emotional reasoning</option>
-                    <option value="shoulding">"Should" statements</option>
-                    <option value="labeling">Labeling</option>
-                    <option value="personalization">Personalization and blame</option>                                
-                  </select>
+                <div class="span3">
+                  <div class="span12">Distortions</div>
+                  <label class="checkbox" for="filter-all-or-nothing">
+                    <input id="filter-all-or-nothing" type="checkbox" value="all_or_nothing">All-or-nothing Thinking
+                  </label>
+                  <label class="checkbox" for="filter-overgeneralization">
+                    <input id="filter-overgeneralization" type="checkbox" value="overgeneralization">Overgeneralization
+                  </label>
+                  <label class="checkbox" for="filter-mental-filter">
+                    <input id="filter-mental-filter" type="checkbox" value="mental_filter">Mental Filter
+                  </label>
+                  <label class="checkbox" for="filter-discounting-positives">
+                    <input id="filter-discounting-positives" type="checkbox" value="discounting_positives">Discounting the positives
+                  </label>
+                  <label class="checkbox" for="filter-jump-to-conclusions">
+                    <input id="filter-jump-to-conclusions" type="checkbox" value="jump_to_conclusions">Jumping to conclusions
+                  </label>
+                  <label class="checkbox" for="filter-mag-or-min">
+                    <input id="filter-mag-or-min" type="checkbox" value="mag_or_min">Magnification or Minimization
+                  </label>
+                  <label class="checkbox" for="filter-emotional-reasoning">
+                    <input id="filter-emotional-reasoning" type="checkbox" value="emotional_reasoning">Emotional reasoning
+                  </label>
+                  <label class="checkbox" for="filter-shoulding">
+                    <input id="filter-shoulding" type="checkbox" value="shoulding">"Should" statements
+                  </label>
+                  <label class="checkbox" for="filter-labeling">
+                    <input id="filter-labeling" type="checkbox" value="labeling">Labeling
+                  </label>   
+                  <label class="checkbox" for="filter-personalization">
+                    <input id="filter-personalization" type="checkbox" value="personalization">Personalization and blame
+                  </label>
                 </div>
-                <div class="span3 select-multiple">
-                  <label class="span11">Emotion</label>
-                  <select id="emotion-filters" multiple="multiple" class="span11">
-                    <option value="sad">Sad</option>
-                    <option value="happy">Happy</option>
-                    <option value="angry">Angry</option>
-                    <option value="anxious">Anxious</option>
-                  </select>
+                <div class="span3">
+                  <div class="span12">Emotions</div>
+                  <label class="checkbox" for="filter-sad">
+                    <input id="filter-sad" type="checkbox" value="sad">Sad
+                  </label>
+                  <label class="checkbox" for="filter-happy">
+                    <input id="filter-happy" type="checkbox" value="happy">Happy
+                  </label>
+                  <label class="checkbox" for="filter-angry">
+                    <input id="filter-angry" type="checkbox" value="angry">Angry
+                  </label>
+                  <label class="checkbox" for="filter-anxious">
+                    <input id="filter-anxious" type="checkbox" value="anxious">Anxious
+                  </label>
                 </div>
                 <div class="clearfix"></div>
               </div>
