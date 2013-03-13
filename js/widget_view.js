@@ -51,7 +51,7 @@ WidgetView = BasicView.extend({
   template: ""+
   "<div id='<%= id %>' class='<%= spanClass %>' data-mode='<%= data_mode %>' data-delay='<%= data_delay %>'>" +
     "<div class='<%= cssClass %> widget-inner-container'>"+
-      "<div class='badge-container'><%= badge_text %></div>"+
+      "<div class='widget-inner-content'><%= badge_text %></div>"+
       "<div class='widget-text'>"+
           // "<div class='badge'>1</div>"+
           // "<img src='star.png' class='star'/>"+
