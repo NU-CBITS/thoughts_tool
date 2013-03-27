@@ -5,8 +5,8 @@
 eventFilters = new FilterSet();
 
 eventFilters.add(function (event) {
-  var timeFilters = selectedValues("#time-filters");
-  // debugger
+
+  var timeFilters = selectedValues("#time-filters input");
   if ( _.isEmpty(timeFilters) ) { return true };
 
   //if not empty, gotta figure out if event fits filters;

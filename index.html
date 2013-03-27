@@ -75,7 +75,7 @@
   }
 
 </style>
-
+<script type="text/javascript" src="dynamo/vendor/date.js"></script>
 <script type="text/javascript" src="dynamo/vendor/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/vendor/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
@@ -365,13 +365,14 @@
 
 <script id="thoughtRecordListTemplate" type="text/html">
   <div class="item" data-cid="(%= item.cid %)">
-    <div class="stream-icon prog-purple-lt"><img src="http://mohrlab.northwestern.edu/ProgressionRules/images/thought.png"></div>
-    <p class="date">(%= item.start.toString().replace("GMT-0600 (CST)", "") %)</p>
+    <div class="stream-icon prog-purple-lt"><img src="./img/thought.png"></div>
+    <p class="date">(%= (new Date(item.get_field_value('start'))).toString("h:mm tt MMM d, yyyy") %)</p>
+
     <h4>(%= item.situation %)</h4>
     <div class="row-fluid">
       <p style="color:black;">
-        From: (%= item.start.toString() %)<br />
-        Until: (%= item.end.toString() %)<br />
+        From: (%= (new Date(item.get_field_value('start'))).toString('h:mm tt on MMM d, yyyy') %)<br />
+        Until: (%= (new Date(item.get_field_value('end'))).toString('h:mm tt on MMM d, yyyy') %)<br />
         Thought: (%= item.thought %)<br />
         Emotion: (%= item.emotion %) ((%= item.emotion_intensity %))<br />
         Alternative Thought: (%= item.alternative_thought %)<br />
@@ -417,14 +418,16 @@ function renderVisualization() {
 
 function selectedValues(selector) {
   var r = [];
-  _.map($(':checked', selector), function(selected){ 
-    r.push( $(selected).text() ); 
+  // _.map($(':checked', selector), function(selected){ 
+  _.map($(selector+':checked'), function(selected){ 
+    // r.push( $(selected).text() ); 
+    r.push( $(selected).val() ); 
   });
+  debugger
   return r;
 };
 
 function passesTimeFilters(event, timeFilters) {
-
   if ( _.isEmpty(timeFilters) ) { return true };
 
   //if not empty, gotta figure out if event fits filters;
@@ -434,19 +437,19 @@ function passesTimeFilters(event, timeFilters) {
   var earliestAcceptableStartTime = null, 
       latestAcceptableEndTime = null;
 
-  if ( _.contains(timeFilters, "Mornings") ) {
+  if ( _.contains(timeFilters, "mornings") ) {
     earliestAcceptableStartTime = 5;
     latestAcceptableEndTime = 12
   }
 
-  if ( _.contains(timeFilters, "Afternoons") ) { 
+  if ( _.contains(timeFilters, "afternoons") ) { 
     if (earliestAcceptableStartTime == null) {
       earliestAcceptableStartTime = 12;
     };
     latestAcceptableEndTime = 12 + 6;
   };
 
-  if ( _.contains(timeFilters, "Evenings") ) { 
+  if ( _.contains(timeFilters, "evenings") ) { 
     if (earliestAcceptableStartTime == null) {
       earliestAcceptableStartTime = 12+6;
     };
@@ -485,10 +488,10 @@ function passesEmotionFilters(event, emotionFilters) {
 
 function filteredEvents() {
   var timeFilters, topicFilters, expFilters, emotionFilters;
-  timeFilters = selectedValues("select#time-filters");
-  topicFilters = selectedValues("select#topic-filters");
-  expFilters = selectedValues("select#distortion-filters");
-  emotionFilters = selectedValues("select#emotion-filters");
+  timeFilters = selectedValues("form#time-filters input");
+  topicFilters = selectedValues("form#topic-filters input");
+  expFilters = selectedValues("form#distortion-filters input");
+  emotionFilters = selectedValues("form#emotion-filters input");
 
   var filteredEvents = ThoughtsToolEvents.chain().filter(function(event) { 
     return (  passesTimeFilters(event, timeFilters) &&
@@ -655,7 +658,8 @@ loadPage = function() {
   renderVisualization(); 
 
   // Filter Selection Handler
-  $('div#filters select').change( function(changeEvent) { 
+  // $('div#filters select').change( function(changeEvent) { 
+  $('div#filters :checkbox').change( function(changeEvent) { 
     renderVisualization(); 
   });
 
@@ -742,84 +746,92 @@ $(function() {
               <div id="filters">
                 <div class="span3">
                   <div class="span12">Time</div>
-                  <label class="checkbox" for="filter-mornings">
-                    <input id="filter-mornings" type="checkbox" value="mornings">Mornings
-                  </label>
-                  <label class="checkbox" for="filter-afternoons">
-                    <input id="filter-afternoons" type="checkbox" value="afternoons">Afternoons
-                  </label>
-                  <label class="checkbox" for="filter-evenings">
-                    <input id="filter-evenings" type="checkbox" value="evenings">Evenings
-                  </label>
+                  <form id='time-filters'>
+                    <label class="checkbox" for="filter-mornings">
+                      <input id="filter-mornings" type="checkbox" value="mornings">Mornings
+                    </label>
+                    <label class="checkbox" for="filter-afternoons">
+                      <input id="filter-afternoons" type="checkbox" value="afternoons">Afternoons
+                    </label>
+                    <label class="checkbox" for="filter-evenings">
+                      <input id="filter-evenings" type="checkbox" value="evenings">Evenings
+                    </label>
+                  </form>
                 </div>
                 <div class="span3">
                   <div class="span12">Topic</div>
-                  <label class="checkbox" for="filter-work">
-                    <input id="filter-work" type="checkbox" value="Work">Work
-                  </label>
-                  <label class="checkbox" for="filter-family">
-                    <input id="filter-family" type="checkbox" value="Family">Family
-                  </label>
-                  <label class="checkbox" for="filter-school">
-                    <input id="filter-school" type="checkbox" value="School">School
-                  </label>
-                  <label class="checkbox" for="filter-chores">
-                    <input id="filter-chores" type="checkbox" value="Chores">Chores
-                  </label>
-                  <label class="checkbox" for="filter-leisure">
-                    <input id="filter-leisure" type="checkbox" value="Leisure">Leisure
-                  </label>
-                  <label class="checkbox" for="filter-self-care">
-                    <input id="filter-self-care" type="checkbox" value="Self-care">Self-care
-                  </label>
+                  <form id='topic-filters'>
+                    <label class="checkbox" for="filter-work">
+                      <input id="filter-work" type="checkbox" value="Work">Work
+                    </label>
+                    <label class="checkbox" for="filter-family">
+                      <input id="filter-family" type="checkbox" value="Family">Family
+                    </label>
+                    <label class="checkbox" for="filter-school">
+                      <input id="filter-school" type="checkbox" value="School">School
+                    </label>
+                    <label class="checkbox" for="filter-chores">
+                      <input id="filter-chores" type="checkbox" value="Chores">Chores
+                    </label>
+                    <label class="checkbox" for="filter-leisure">
+                      <input id="filter-leisure" type="checkbox" value="Leisure">Leisure
+                    </label>
+                    <label class="checkbox" for="filter-self-care">
+                      <input id="filter-self-care" type="checkbox" value="Self-care">Self-care
+                    </label>
+                  </form>
                 </div>
                 <div class="span3">
                   <div class="span12">Distortions</div>
-                  <label class="checkbox" for="filter-all-or-nothing">
-                    <input id="filter-all-or-nothing" type="checkbox" value="all_or_nothing">All-or-nothing Thinking
-                  </label>
-                  <label class="checkbox" for="filter-overgeneralization">
-                    <input id="filter-overgeneralization" type="checkbox" value="overgeneralization">Overgeneralization
-                  </label>
-                  <label class="checkbox" for="filter-mental-filter">
-                    <input id="filter-mental-filter" type="checkbox" value="mental_filter">Mental Filter
-                  </label>
-                  <label class="checkbox" for="filter-discounting-positives">
-                    <input id="filter-discounting-positives" type="checkbox" value="discounting_positives">Discounting the positives
-                  </label>
-                  <label class="checkbox" for="filter-jump-to-conclusions">
-                    <input id="filter-jump-to-conclusions" type="checkbox" value="jump_to_conclusions">Jumping to conclusions
-                  </label>
-                  <label class="checkbox" for="filter-mag-or-min">
-                    <input id="filter-mag-or-min" type="checkbox" value="mag_or_min">Magnification or Minimization
-                  </label>
-                  <label class="checkbox" for="filter-emotional-reasoning">
-                    <input id="filter-emotional-reasoning" type="checkbox" value="emotional_reasoning">Emotional reasoning
-                  </label>
-                  <label class="checkbox" for="filter-shoulding">
-                    <input id="filter-shoulding" type="checkbox" value="shoulding">"Should" statements
-                  </label>
-                  <label class="checkbox" for="filter-labeling">
-                    <input id="filter-labeling" type="checkbox" value="labeling">Labeling
-                  </label>   
-                  <label class="checkbox" for="filter-personalization">
-                    <input id="filter-personalization" type="checkbox" value="personalization">Personalization and blame
-                  </label>
+                  <form id='distortion-filters'>
+                    <label class="checkbox" for="filter-all-or-nothing">
+                      <input id="filter-all-or-nothing" type="checkbox" value="all_or_nothing">All-or-nothing Thinking
+                    </label>
+                    <label class="checkbox" for="filter-overgeneralization">
+                      <input id="filter-overgeneralization" type="checkbox" value="overgeneralization">Overgeneralization
+                    </label>
+                    <label class="checkbox" for="filter-mental-filter">
+                      <input id="filter-mental-filter" type="checkbox" value="mental_filter">Mental Filter
+                    </label>
+                    <label class="checkbox" for="filter-discounting-positives">
+                      <input id="filter-discounting-positives" type="checkbox" value="discounting_positives">Discounting the positives
+                    </label>
+                    <label class="checkbox" for="filter-jump-to-conclusions">
+                      <input id="filter-jump-to-conclusions" type="checkbox" value="jump_to_conclusions">Jumping to conclusions
+                    </label>
+                    <label class="checkbox" for="filter-mag-or-min">
+                      <input id="filter-mag-or-min" type="checkbox" value="mag_or_min">Magnification or Minimization
+                    </label>
+                    <label class="checkbox" for="filter-emotional-reasoning">
+                      <input id="filter-emotional-reasoning" type="checkbox" value="emotional_reasoning">Emotional reasoning
+                    </label>
+                    <label class="checkbox" for="filter-shoulding">
+                      <input id="filter-shoulding" type="checkbox" value="shoulding">"Should" statements
+                    </label>
+                    <label class="checkbox" for="filter-labeling">
+                      <input id="filter-labeling" type="checkbox" value="labeling">Labeling
+                    </label>   
+                    <label class="checkbox" for="filter-personalization">
+                      <input id="filter-personalization" type="checkbox" value="personalization">Personalization and blame
+                    </label>
+                  </form>
                 </div>
                 <div class="span3">
                   <div class="span12">Emotions</div>
-                  <label class="checkbox" for="filter-sad">
-                    <input id="filter-sad" type="checkbox" value="sad">Sad
-                  </label>
-                  <label class="checkbox" for="filter-happy">
-                    <input id="filter-happy" type="checkbox" value="happy">Happy
-                  </label>
-                  <label class="checkbox" for="filter-angry">
-                    <input id="filter-angry" type="checkbox" value="angry">Angry
-                  </label>
-                  <label class="checkbox" for="filter-anxious">
-                    <input id="filter-anxious" type="checkbox" value="anxious">Anxious
-                  </label>
+                  <form id='emotion-filters'>
+                    <label class="checkbox" for="filter-sad">
+                      <input id="filter-sad" type="checkbox" value="sad">Sad
+                    </label>
+                    <label class="checkbox" for="filter-happy">
+                      <input id="filter-happy" type="checkbox" value="happy">Happy
+                    </label>
+                    <label class="checkbox" for="filter-angry">
+                      <input id="filter-angry" type="checkbox" value="angry">Angry
+                    </label>
+                    <label class="checkbox" for="filter-anxious">
+                      <input id="filter-anxious" type="checkbox" value="anxious">Anxious
+                    </label>
+                  </form>
                 </div>
                 <div class="clearfix"></div>
               </div>
